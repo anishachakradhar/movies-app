@@ -42,6 +42,10 @@
   padding: 20px 100px;
 }
 
+.container-wrapper {
+  padding: 0 100px;
+}
+
 #main-nav .nav-link {
   padding-left: 26px;
 }
@@ -59,10 +63,15 @@
   overflow: hidden;
 }
 
-.nav-search {
+.nav-search.row {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+  left: 0;
+  right: 0;
   width: 100%;
-  margin-right: 0;
+}
+
+.now-showing-movies-list {
+  margin-top: 30px;
 }

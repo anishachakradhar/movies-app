@@ -5,10 +5,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import HomeContainer from './Components/HomeContainer';
 
+import { BrowserRouter as Router } from 'react-router-dom';
+
 function App() {
   return (
     <div className="App">
-      <HomeContainer />
+      <Router>
+        <HomeContainer />
+      </Router>
     </div>
   );
 }

@@ -1,3 +1,7 @@
+.bg-black {
+  background: #000;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -33,17 +37,22 @@
   }
 }
 
+.main-container-wrapper {
+  background-color: #ededed;
+  font-family: 'Ubuntu';
+}
+
 .slider {
   margin-top: -80px;
 }
 
 #main-nav {
-  z-index: 1;
-  padding: 20px 100px;
+  z-index: 100;
+  padding: 20px 120px;
 }
 
 .container-wrapper {
-  padding: 0 100px;
+  padding: 0 120px;
 }
 
 #main-nav .nav-link {
@@ -72,6 +81,111 @@
   width: 100%;
 }
 
-.now-showing-movies-list {
+.movies-list {
   margin-top: 30px;
+}
+
+.movies-list-title {
+  margin-top: 30px;
+  font-size: 25px;
+}
+
+.footer {
+  margin-top: 30px;
+  height: 100px;
+  background-color: black;
+  color: grey;
+  text-align: center;
+}
+
+.movie-detail {
+  margin-top: 30px;
+}
+
+.card-img-top {
+  height: 200px;
+}
+
+#movie-title {
+  padding: .75rem 1.25rem;
+}
+
+#movie-detail-image {
+  height: 600px;
+  width: 360px;
+  margin-bottom: 30px;
+}
+
+.list-inline li { 
+  display: inline-block;
+  color: grey;
+}
+
+.list-inline-li:after {
+  content:'|'; margin:0 10px;
+}
+
+.movie-detail-container {
+  background-color: white;
+  padding: 30px;
+  margin: -30px 0;
+}
+
+.movie-detail-left-part {
+  color: white;
+  width: 360px;
+  margin-bottom: 5px;
+  padding: 10px;
+  text-align: center;
+  border: none;
+}
+
+.movie-review {
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+  padding: 30px;
+  margin: 40px 0;
+}
+
+#similar-movie-card {
+  margin: 20px 50px;
+}
+
+.similar-movie-title {
+  padding: 10px;
+}
+
+#navbar-dropdown-menu {
+  background-color: black;
+  border: black;
+  color: grey;
+  margin: 0;
+  padding: 0;
+  box-shadow: none;
+  vertical-align: 0%;
+}
+
+#dropdown-menu-item.active, #dropdown-menu-item:active {
+  background-color: #dddddd;
+}
+
+.dropdown-menu.show.dropdown-menu-right {
+  background-color: black;
+  color: white;
+}
+
+a#dropdown-menu-item.dropdown-item {
+  color: grey;
+}
+
+div.dropdown-divider {
+  border: .5px solid grey;
+}
+
+#movie-list-card-body {
+  padding: 0;
+}
+
+#movie-list-column {
+  margin-top: 40px;
 }

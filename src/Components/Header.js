@@ -14,8 +14,8 @@ export default class Header extends Component {
               <Nav.Link href="/">Home</Nav.Link>
               <Nav.Link>
                 <DropdownButton alignRight title="Movies" id="navbar-dropdown-menu">
-                  <Dropdown.Item eventKey="1" id="dropdown-menu-item" as={Link} to="/latest">Latest</Dropdown.Item>
-                  <Dropdown.Item eventKey="2" id="dropdown-menu-item" as={Link} to="/popular">Popular</Dropdown.Item>
+                  <Dropdown.Item eventKey="1" id="dropdown-menu-item" as={Link} to="/now-showing">Now Showing</Dropdown.Item>
+                  <Dropdown.Item eventKey="2" id="dropdown-menu-item" as={Link} to="/top-rated">Top rated</Dropdown.Item>
                   <Dropdown.Item eventKey="3" id="dropdown-menu-item" as={Link} to="/upcoming">Upcoming</Dropdown.Item>
                   <Dropdown.Divider />
                   <Dropdown.Item eventKey="4" id="dropdown-menu-item">Thriller</Dropdown.Item>
@@ -24,8 +24,8 @@ export default class Header extends Component {
               </Nav.Link>
               <Nav.Link>
                 <DropdownButton alignRight title="TV Shows" id="navbar-dropdown-menu">
-                  <Dropdown.Item eventKey="11" id="dropdown-menu-item">Latest</Dropdown.Item>
-                  <Dropdown.Item eventKey="12" id="dropdown-menu-item">Popular</Dropdown.Item>
+                  <Dropdown.Item eventKey="11" id="dropdown-menu-item">Now Showing</Dropdown.Item>
+                  <Dropdown.Item eventKey="12" id="dropdown-menu-item">Top rated</Dropdown.Item>
                   <Dropdown.Item eventKey="13" id="dropdown-menu-item">Upcoming</Dropdown.Item>
                   <Dropdown.Divider />
                   <Dropdown.Item eventKey="14" id="dropdown-menu-item">Thriller</Dropdown.Item>

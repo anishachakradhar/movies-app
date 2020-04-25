@@ -6,8 +6,8 @@ import Header from './Header';
 import MovieDetailPage from './MovieDetailPage';
 import LandingPage from './LandingPage';
 import Footer from './Footer';
-import LatestMoviesPage from './LatestMoviesPage';
-import PopularMoviesPage from './PopularMoviesPage';
+import NowShowingMoviesPage from './NowShowingMoviesPage';
+import TopRatedMoviesPage from './TopRatedMoviesPage';
 import UpcomingMoviesPage from './UpcomingMoviesPage';
 
 export class HomeContainer extends Component {
@@ -19,11 +19,11 @@ export class HomeContainer extends Component {
           <Route path="/movie-detail/:id">
             <MovieDetailPage />
           </Route>
-          <Route path="/latest">
-            <LatestMoviesPage />
+          <Route path="/now-showing">
+            <NowShowingMoviesPage />
           </Route>
-          <Route path="/popular">
-            <PopularMoviesPage />
+          <Route path="/top-rated">
+            <TopRatedMoviesPage />
           </Route>
           <Route path="/upcoming">
             <UpcomingMoviesPage />

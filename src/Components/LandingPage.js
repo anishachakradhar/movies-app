@@ -1,7 +1,50 @@
 import React, { Component } from 'react';
 import { Row, Col, Form, FormControl, Button, Carousel, InputGroup, Card, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+
+import config from '../config';
 
 export default class LandingPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: false,
+      nowShowingList: [],
+      upcomingList: []
+    }
+  }
+
+  componentDidMount() {
+    this.setState({ loading: true })
+
+    fetch(`${config.API_BASE_URL}/movie/now_playing`, {
+      method: 'GET',
+      headers: {
+        authorization: `Bearer ${config.ACCESS_TOKEN}`,
+      }
+    })
+    .then(res => res.json())
+    .then(data => {
+      this.setState({
+        nowShowingList: data.results,
+      })
+    })
+
+    fetch(`${config.API_BASE_URL}/movie/upcoming`, {
+      method: 'GET',
+      headers: {
+        authorization: `Bearer ${config.ACCESS_TOKEN}`
+      }
+    })
+    .then(res => res.json())
+    .then(data => {
+      this.setState({
+        upcomingList: data.results,
+        loading: false
+      })
+    })
+  }
+
   render() {
     return (
       <div>
@@ -44,13 +87,44 @@ export default class LandingPage extends Component {
         </div>
         <div className="movies-list container-wrapper">
           <Row>
-            <Col lg={2} sm={2}>
-              <Card>
-                <Card.Img variant="top" src="makkai.jpg" />
+            {this.state.nowShowingList.slice(0,6).map((data, index) => 
+              <Col lg={2} sm={2} key={index}>
+              <Card id="landing-page-card">
+                <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500/${data.poster_path}`} />
                 <Card.Body>
-                  <Card.Title id="movie-title">Movie Title</Card.Title>
+                  <Card.Title id="movie-title">{data.original_title}</Card.Title>
                   <ListGroup className="list-group-flush">
-                    <ListGroupItem>Released Date</ListGroupItem>
+                    <ListGroupItem>{data.release_date}</ListGroupItem>
+                    <ListGroupItem>Rating</ListGroupItem>
+                  </ListGroup>
+                </Card.Body>
+                <Card.Body>
+                  <Card.Link href={`/movie-detail/${data.id}`}>View Details</Card.Link>
+                  <Card.Link href="#">Watch trailer</Card.Link>
+                </Card.Body>
+              </Card>
+            </Col>
+            )}
+            <Col lg={2} />
+            <Col lg={8}>
+              <Button variant="secondary" className="landing-page-button" as={Link} to="/now-showing">View More</Button>
+            </Col>
+            <Col lg={2} />
+          </Row>
+        </div>
+        <div className="movies-list-title container-wrapper">
+          <p>Upcoming Movies</p>
+        </div>
+        <div className="movies-list container-wrapper">
+          <Row>
+            {this.state.upcomingList.slice(0,6).map((data, index) => 
+              <Col lg={2} sm={2} key={index}>
+              <Card id="landing-page-card">
+                <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500/${data.poster_path}`} />
+                <Card.Body>
+                  <Card.Title id="movie-title">{data.original_title}</Card.Title>
+                  <ListGroup className="list-group-flush">
+                    <ListGroupItem>{data.release_date}</ListGroupItem>
                     <ListGroupItem>Rating</ListGroupItem>
                   </ListGroup>
                 </Card.Body>
@@ -60,189 +134,12 @@ export default class LandingPage extends Component {
                 </Card.Body>
               </Card>
             </Col>
-            <Col lg={2} sm={2}>
-              <Card>
-                <Card.Img variant="top" src="makkai.jpg" />
-                <Card.Body>
-                  <Card.Title id="movie-title">Movie Title</Card.Title>
-                  <ListGroup className="list-group-flush">
-                    <ListGroupItem>Released Date</ListGroupItem>
-                    <ListGroupItem>Rating</ListGroupItem>
-                  </ListGroup>
-                </Card.Body>
-                <Card.Body>
-                  <Card.Link href="#">View Details</Card.Link>
-                  <Card.Link href="#">Watch trailer</Card.Link>
-                </Card.Body>
-              </Card>
+            )}
+            <Col lg={2} />
+            <Col lg={8}>
+              <Button variant="secondary" className="landing-page-button" as={Link} to="/upcoming">View More</Button>
             </Col>
-            <Col lg={2} sm={2}>
-              <Card>
-                <Card.Img variant="top" src="makkai.jpg" />
-                <Card.Body>
-                  <Card.Title id="movie-title">Movie Title</Card.Title>
-                  <ListGroup className="list-group-flush">
-                    <ListGroupItem>Released Date</ListGroupItem>
-                    <ListGroupItem>Rating</ListGroupItem>
-                  </ListGroup>
-                </Card.Body>
-                <Card.Body>
-                  <Card.Link href="#">View Details</Card.Link>
-                  <Card.Link href="#">Watch trailer</Card.Link>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col lg={2} sm={2}>
-              <Card>
-                <Card.Img variant="top" src="makkai.jpg" />
-                <Card.Body>
-                  <Card.Title id="movie-title">Movie Title</Card.Title>
-                  <ListGroup className="list-group-flush">
-                    <ListGroupItem>Released Date</ListGroupItem>
-                    <ListGroupItem>Rating</ListGroupItem>
-                  </ListGroup>
-                </Card.Body>
-                <Card.Body>
-                  <Card.Link href="#">View Details</Card.Link>
-                  <Card.Link href="#">Watch trailer</Card.Link>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col lg={2} sm={2}>
-              <Card>
-                <Card.Img variant="top" src="makkai.jpg" />
-                <Card.Body>
-                  <Card.Title id="movie-title">Movie Title</Card.Title>
-                  <ListGroup className="list-group-flush">
-                    <ListGroupItem>Released Date</ListGroupItem>
-                    <ListGroupItem>Rating</ListGroupItem>
-                  </ListGroup>
-                </Card.Body>
-                <Card.Body>
-                  <Card.Link href="#">View Details</Card.Link>
-                  <Card.Link href="#">Watch trailer</Card.Link>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col lg={2} sm={2}>
-              <Card>
-                <Card.Img variant="top" src="makkai.jpg" />
-                <Card.Body>
-                  <Card.Title id="movie-title">Movie Title</Card.Title>
-                  <ListGroup className="list-group-flush">
-                    <ListGroupItem>Released Date</ListGroupItem>
-                    <ListGroupItem>Rating</ListGroupItem>
-                  </ListGroup>
-                </Card.Body>
-                <Card.Body>
-                  <Card.Link href="#">View Details</Card.Link>
-                  <Card.Link href="#">Watch trailer</Card.Link>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
-        </div>
-        <div className="movies-list-title container-wrapper">
-          <p>Popular Movies</p>
-        </div>
-        <div className="movies-list container-wrapper">
-          <Row>
-            <Col lg={2} sm={2}>
-              <Card>
-                <Card.Img variant="top" src="makkai.jpg" />
-                <Card.Body>
-                  <Card.Title id="movie-title">Movie Title</Card.Title>
-                  <ListGroup className="list-group-flush">
-                    <ListGroupItem>Released Date</ListGroupItem>
-                    <ListGroupItem>Rating</ListGroupItem>
-                  </ListGroup>
-                </Card.Body>
-                <Card.Body>
-                  <Card.Link href="#">View Details</Card.Link>
-                  <Card.Link href="#">Watch trailer</Card.Link>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col lg={2} sm={2}>
-              <Card>
-                <Card.Img variant="top" src="makkai.jpg" />
-                <Card.Body>
-                  <Card.Title id="movie-title">Movie Title</Card.Title>
-                  <ListGroup className="list-group-flush">
-                    <ListGroupItem>Released Date</ListGroupItem>
-                    <ListGroupItem>Rating</ListGroupItem>
-                  </ListGroup>
-                </Card.Body>
-                <Card.Body>
-                  <Card.Link href="#">View Details</Card.Link>
-                  <Card.Link href="#">Watch trailer</Card.Link>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col lg={2} sm={2}>
-              <Card>
-                <Card.Img variant="top" src="makkai.jpg" />
-                <Card.Body>
-                  <Card.Title id="movie-title">Movie Title</Card.Title>
-                  <ListGroup className="list-group-flush">
-                    <ListGroupItem>Released Date</ListGroupItem>
-                    <ListGroupItem>Rating</ListGroupItem>
-                  </ListGroup>
-                </Card.Body>
-                <Card.Body>
-                  <Card.Link href="#">View Details</Card.Link>
-                  <Card.Link href="#">Watch trailer</Card.Link>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col lg={2} sm={2}>
-              <Card>
-                <Card.Img variant="top" src="makkai.jpg" />
-                <Card.Body>
-                  <Card.Title id="movie-title">Movie Title</Card.Title>
-                  <ListGroup className="list-group-flush">
-                    <ListGroupItem>Released Date</ListGroupItem>
-                    <ListGroupItem>Rating</ListGroupItem>
-                  </ListGroup>
-                </Card.Body>
-                <Card.Body>
-                  <Card.Link href="#">View Details</Card.Link>
-                  <Card.Link href="#">Watch trailer</Card.Link>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col lg={2} sm={2}>
-              <Card>
-                <Card.Img variant="top" src="makkai.jpg" />
-                <Card.Body>
-                  <Card.Title id="movie-title">Movie Title</Card.Title>
-                  <ListGroup className="list-group-flush">
-                    <ListGroupItem>Released Date</ListGroupItem>
-                    <ListGroupItem>Rating</ListGroupItem>
-                  </ListGroup>
-                </Card.Body>
-                <Card.Body>
-                  <Card.Link href="#">View Details</Card.Link>
-                  <Card.Link href="#">Watch trailer</Card.Link>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col lg={2} sm={2}>
-              <Card>
-                <Card.Img variant="top" src="makkai.jpg" />
-                <Card.Body>
-                  <Card.Title id="movie-title">Movie Title</Card.Title>
-                  <ListGroup className="list-group-flush">
-                    <ListGroupItem>Released Date</ListGroupItem>
-                    <ListGroupItem>Rating</ListGroupItem>
-                  </ListGroup>
-                </Card.Body>
-                <Card.Body>
-                  <Card.Link href="#">View Details</Card.Link>
-                  <Card.Link href="#">Watch trailer</Card.Link>
-                </Card.Body>
-              </Card>
-            </Col>
+            <Col lg={2} />
           </Row>
         </div>
       </div>

@@ -3,28 +3,28 @@ import { Row, Col, Card } from 'react-bootstrap';
 
 import config from '../config';
 
-export default class UpcomingMoviesPage extends Component {
+export default class NowShowingMoviePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       loading: false,
-      upcomingList: []
+      nowShowingList: []
     }
   }
 
   componentDidMount() {
     this.setState({ loading: true })
 
-    fetch(`${config.API_BASE_URL}/movie/upcoming`, {
+    fetch(`${config.API_BASE_URL}/movie/now_playing`, {
       method: 'GET',
       headers: {
-        authorization: `Bearer ${config.ACCESS_TOKEN}`
+        authorization: `Bearer ${config.ACCESS_TOKEN}`,
       }
     })
     .then(res => res.json())
     .then(data => {
       this.setState({
-        upcomingList: data.results,
+        nowShowingList: data.results,
         loading: false
       })
     })
@@ -34,9 +34,9 @@ export default class UpcomingMoviesPage extends Component {
     return (
       <div className="container-wrapper movie-detail">
         <div className="movie-detail-container">
-          <h3>Upcoming Movie</h3>
+          <h3>Now Showing Movie</h3>
           <Row>
-            {this.state.upcomingList.map((item, index) => 
+            {this.state.nowShowingList.map((item, index) => 
               <Col lg={2} key={index}>
               <Card id="movie-list-card" >
                 <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500/${item.poster_path}`} />

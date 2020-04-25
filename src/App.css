@@ -108,6 +108,7 @@
 
 #movie-title {
   padding: .75rem 1.25rem;
+  height: 60px;
 }
 
 #movie-detail-image {
@@ -186,6 +187,16 @@ div.dropdown-divider {
   padding: 0;
 }
 
-#movie-list-column {
+#movie-list-card {
   margin-top: 40px;
+  height: 400px;
+}
+
+img.card-img-top {
+  height: 300px;
+}
+
+.landing-page-button {
+  margin-top: 40px;
+  width: 100%;
 }

@@ -1,7 +1,37 @@
 import React, { Component } from 'react';
 import { Row, Col, Form, Button, Card } from 'react-bootstrap';
 
+import config from '../config';
+
 export default class MovieDetailPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: false,
+      detail: []
+    }
+  }
+
+  componentDidMount() {
+    // const { movieId } = this.props.match.params.id
+    this.setState({ loading: true })
+
+    fetch(`${config.API_BASE_URL}/movie`, {
+      method: 'GET',
+      headers: {
+        authorization: `Bearer ${config.ACCESS_TOKEN}`
+      }
+    })
+    .then(res => res.json())
+    .then(data => {
+      this.setState({
+        detail: data.results,
+        loading: false
+      })
+    })
+    console.log(this.state.detail);
+  }
+
   render() {
     return (
       <div className="container-wrapper movie-detail">
@@ -35,15 +65,15 @@ export default class MovieDetailPage extends Component {
               <h5 style={{ marginLeft: "50px" }}>Similar Movies :</h5>
               <Card id="similar-movie-card">
                 <Card.Img variant="top" src="/window.jpg" />
-                <p class="similar-movie-title">Movie Title</p>
+                <p className="similar-movie-title">Movie Title</p>
               </Card>
               <Card id="similar-movie-card">
                 <Card.Img variant="top" src="/window.jpg" />
-                <p class="similar-movie-title">Movie Title</p>
+                <p className="similar-movie-title">Movie Title</p>
               </Card>
               <Card id="similar-movie-card">
                 <Card.Img variant="top" src="/window.jpg" />
-                <p class="similar-movie-title">Movie Title</p>
+                <p className="similar-movie-title">Movie Title</p>
               </Card>
             </Col>
           </Row>

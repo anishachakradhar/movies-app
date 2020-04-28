@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col, Form, FormControl, Button, Carousel, InputGroup, Card, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-import config from '../config';
+import { getNowPlayingMovies, getUpcomingMovies } from '../services/moviesServices';
 
 export default class LandingPage extends Component {
   constructor(props) {
@@ -15,38 +15,37 @@ export default class LandingPage extends Component {
     }
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.setState({ 
       nowShowingLoading: true,
       upcomingLoading: true 
     })
 
-    fetch(`${config.API_BASE_URL}/movie/now_playing`, {
-      method: 'GET',
-      headers: {
-        authorization: `Bearer ${config.ACCESS_TOKEN}`,
-      }
-    })
-    .then(res => res.json())
-    .then(data => {
-      this.setState({
-        nowShowingList: data.results,
-        nowShowingLoading: false
-      })
+    let nowShowingList = [];
+    let upcomingList   = [];
+
+    try {
+      nowShowingList = await getNowPlayingMovies();
+    } catch (e) {
+      // handle your errors here
+      console.log('Error...', e);
+    }
+
+    this.setState({
+      nowShowingList,
+      nowShowingLoading: false
     })
 
-    fetch(`${config.API_BASE_URL}/movie/upcoming`, {
-      method: 'GET',
-      headers: {
-        authorization: `Bearer ${config.ACCESS_TOKEN}`
-      }
-    })
-    .then(res => res.json())
-    .then(data => {
-      this.setState({
-        upcomingList: data.results,
-        upcomingLoading: false
-      })
+    try {
+      upcomingList = await getUpcomingMovies();
+    } catch (e) {
+      // handle your errors here
+      console.log('Error...', e);
+    }
+
+    this.setState({
+      upcomingList,
+      upcomingLoading: false
     })
   }
 

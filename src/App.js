@@ -3,7 +3,7 @@ import React from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import HomeContainer from './Components/HomeContainer';
+import HomeContainer from './components/HomeContainer';
 
 import { BrowserRouter as Router } from 'react-router-dom';
 

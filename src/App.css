@@ -195,7 +195,8 @@ div.dropdown-divider {
 }
 
 img.card-img-top {
-  height: 300px;
+  width: 100%;
+  height: auto;
 }
 
 .landing-page-button {

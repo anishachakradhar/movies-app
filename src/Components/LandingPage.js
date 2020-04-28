@@ -8,14 +8,18 @@ export default class LandingPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: false,
+      nowShowingLoading: false,
+      upcomingLoading: false,
       nowShowingList: [],
       upcomingList: []
     }
   }
 
   componentDidMount() {
-    this.setState({ loading: true })
+    this.setState({ 
+      nowShowingLoading: true,
+      upcomingLoading: true 
+    })
 
     fetch(`${config.API_BASE_URL}/movie/now_playing`, {
       method: 'GET',
@@ -27,6 +31,7 @@ export default class LandingPage extends Component {
     .then(data => {
       this.setState({
         nowShowingList: data.results,
+        nowShowingLoading: false
       })
     })
 
@@ -40,7 +45,7 @@ export default class LandingPage extends Component {
     .then(data => {
       this.setState({
         upcomingList: data.results,
-        loading: false
+        upcomingLoading: false
       })
     })
   }
@@ -86,61 +91,67 @@ export default class LandingPage extends Component {
           <p>Now Showing Movies</p>
         </div>
         <div className="movies-list container-wrapper">
-          <Row>
-            {this.state.nowShowingList.slice(0,6).map((data, index) => 
-              <Col lg={2} sm={2} key={index}>
-              <Card id="landing-page-card">
-                <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500/${data.poster_path}`} />
-                <Card.Body>
-                  <Card.Title id="movie-title">{data.original_title}</Card.Title>
-                  <ListGroup className="list-group-flush">
-                    <ListGroupItem>{data.release_date}</ListGroupItem>
-                    <ListGroupItem>Rating</ListGroupItem>
-                  </ListGroup>
-                </Card.Body>
-                <Card.Body>
-                  <Card.Link href={`/movie-detail/${data.id}`}>View Details</Card.Link>
-                  <Card.Link href="#">Watch trailer</Card.Link>
-                </Card.Body>
-              </Card>
-            </Col>
-            )}
-            <Col lg={2} />
-            <Col lg={8}>
-              <Button variant="secondary" className="landing-page-button" as={Link} to="/now-showing">View More</Button>
-            </Col>
-            <Col lg={2} />
-          </Row>
+          { this.state.nowShowingLoading ? 
+            <h5>Loading.........</h5> :
+            <Row>
+              {this.state.nowShowingList.slice(0,6).map((data, index) => 
+                <Col lg={2} sm={2} key={index}>
+                <Card id="landing-page-card">
+                  <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500/${data.poster_path}`} />
+                  <Card.Body>
+                    <Card.Title id="movie-title">{data.original_title}</Card.Title>
+                    <ListGroup className="list-group-flush">
+                      <ListGroupItem>{data.release_date}</ListGroupItem>
+                      <ListGroupItem>Rating</ListGroupItem>
+                    </ListGroup>
+                  </Card.Body>
+                  <Card.Body>
+                    <Card.Link href={`/movie-detail/${data.id}`}>View Details</Card.Link>
+                    <Card.Link href="#">Watch trailer</Card.Link>
+                  </Card.Body>
+                </Card>
+              </Col>
+              )}
+              <Col lg={2} />
+              <Col lg={8}>
+                <Button variant="secondary" className="landing-page-button" as={Link} to="/now-showing">View More</Button>
+              </Col>
+              <Col lg={2} />
+            </Row> 
+          }
         </div>
         <div className="movies-list-title container-wrapper">
           <p>Upcoming Movies</p>
         </div>
         <div className="movies-list container-wrapper">
-          <Row>
-            {this.state.upcomingList.slice(0,6).map((data, index) => 
-              <Col lg={2} sm={2} key={index}>
-              <Card id="landing-page-card">
-                <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500/${data.poster_path}`} />
-                <Card.Body>
-                  <Card.Title id="movie-title">{data.original_title}</Card.Title>
-                  <ListGroup className="list-group-flush">
-                    <ListGroupItem>{data.release_date}</ListGroupItem>
-                    <ListGroupItem>Rating</ListGroupItem>
-                  </ListGroup>
-                </Card.Body>
-                <Card.Body>
-                  <Card.Link href="/movie-detail/1">View Details</Card.Link>
-                  <Card.Link href="#">Watch trailer</Card.Link>
-                </Card.Body>
-              </Card>
-            </Col>
-            )}
-            <Col lg={2} />
-            <Col lg={8}>
-              <Button variant="secondary" className="landing-page-button" as={Link} to="/upcoming">View More</Button>
-            </Col>
-            <Col lg={2} />
-          </Row>
+          { this.state.upcomingLoading ? 
+            <h5>Loading.........</h5> :
+            <Row>
+              { this.state.upcomingList.slice(0,6).map((data, index) => 
+                <Col lg={2} sm={2} key={index}>
+                  <Card id="landing-page-card">
+                    <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500/${data.poster_path}`} />
+                    <Card.Body>
+                      <Card.Title id="movie-title">{data.original_title}</Card.Title>
+                      <ListGroup className="list-group-flush">
+                        <ListGroupItem>{data.release_date}</ListGroupItem>
+                        <ListGroupItem>Rating</ListGroupItem>
+                      </ListGroup>
+                    </Card.Body>
+                    <Card.Body>
+                      <Card.Link href={`/movie-detail/${data.id}`}>View Details</Card.Link>
+                      <Card.Link href="#">Watch trailer</Card.Link>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              )}
+              <Col lg={2} />
+              <Col lg={8}>
+                <Button variant="secondary" className="landing-page-button" as={Link} to="/upcoming">View More</Button>
+              </Col>
+              <Col lg={2} />
+            </Row>
+          }
         </div>
       </div>
     )

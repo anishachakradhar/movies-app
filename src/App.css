@@ -123,7 +123,8 @@
 }
 
 .list-inline-li:after {
-  content:'|'; margin:0 10px;
+  content: '|'; 
+  margin:0 10px;
 }
 
 .movie-detail-container {
@@ -190,6 +191,7 @@ div.dropdown-divider {
 #movie-list-card {
   margin-top: 40px;
   height: 400px;
+  text-decoration: none;
 }
 
 img.card-img-top {
@@ -199,4 +201,33 @@ img.card-img-top {
 .landing-page-button {
   margin-top: 40px;
   width: 100%;
+}
+
+.genre-list {
+  display: inline;
+}
+
+.genre-list:after {
+  content: ','; 
+  margin-right: 10px;
+}
+
+.genre-list:last-child::after {
+  content: none; 
+}
+
+.character-names {
+  color: grey;
+  display: inline;
+}
+
+.cast-crew-link {
+  text-decoration: none;
+  color: darkblue;
+}
+
+.loading {
+  height: 100vh;
+  text-align: center;
+  margin-top: 20%;
 }

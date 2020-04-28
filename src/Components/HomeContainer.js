@@ -9,6 +9,7 @@ import Footer from './Footer';
 import NowShowingMoviesPage from './NowShowingMoviesPage';
 import TopRatedMoviesPage from './TopRatedMoviesPage';
 import UpcomingMoviesPage from './UpcomingMoviesPage';
+import CastCrewDetailPage from './CastCrewDetailPage';
 
 export class HomeContainer extends Component {
   render() {
@@ -16,9 +17,8 @@ export class HomeContainer extends Component {
       <Container fluid="true" className="main-container-wrapper">
         <Header />
         <Switch>
-          <Route path="/movie-detail/:id">
-            <MovieDetailPage />
-          </Route>
+          <Route path="/movie-detail/:id" render={(props) => <MovieDetailPage {...props} />}/>
+          <Route path="/cast-crew-detail/:id" render={(props) => <CastCrewDetailPage {...props} />}/>
           <Route path="/now-showing">
             <NowShowingMoviesPage />
           </Route>

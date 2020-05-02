@@ -2,33 +2,35 @@ import React, { Component } from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-import config from '../config';
+import { getTopRatedMovies } from '../services/moviesServices';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
 
 export default class TopRatedMoviesPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       loading: false,
-      list: []
+      topRatedList: []
     }
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.setState({ loading: true });
 
-    fetch(`${config.API_BASE_URL}/movie/top_rated`, { 
-      method: 'GET', 
-      headers: {
-        authorization: `Bearer ${config.ACCESS_TOKEN}`, 
-      }
+    let topRatedList = [];  
+    
+    try {
+      topRatedList = await getTopRatedMovies();
+    } catch (e) {
+      console.log('There is an error..........', e);
+    }
+
+    this.setState({
+      topRatedList,
+      loading: false
     })
-    .then(res => res.json())
-    .then(movies => {
-      this.setState({
-        list: movies.results,
-        loading: false
-      });
-    });
   }
 
   render() {
@@ -39,12 +41,15 @@ export default class TopRatedMoviesPage extends Component {
           { this.state.loading ? 
             <h5 className="loading">Loading.........</h5> :
             <Row>
-              {this.state.list.map((item, index) => 
+              {this.state.topRatedList.map((item, index) => 
                 <Col lg={2} key={index}>
                   <Card id="movie-list-card" as={Link} to={`/movie-detail/${item.id}`}>
                     <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500/${item.poster_path}`} />
                     <Card.Body id="movie-list-card-body">
-                      <Card.Title id="movie-title">{item.original_title}</Card.Title>
+                      <Card.Title>
+                        <p id="movie-list-rating"><FontAwesomeIcon icon={faStar} color="#f5af22" /> {item.vote_average}</p>
+                        <p id="movie-list-title">{item.title}</p>
+                      </Card.Title>
                     </Card.Body>
                   </Card>
                 </Col>

@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { Row, Col, Form, Button, Card } from 'react-bootstrap';
 
-import config from '../config';
+import { getMovieDetail } from '../services/moviesServices';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStar } from '@fortawesome/free-solid-svg-icons'
 
 export default class MovieDetailPage extends Component {
   constructor(props) {
@@ -12,21 +15,20 @@ export default class MovieDetailPage extends Component {
     }
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.setState({ loading: true })
 
-    fetch(`${config.API_BASE_URL}/movie/${this.props.match.params.id}?append_to_response=credits`, {
-      method: 'GET',
-      headers: {
-        authorization: `Bearer ${config.ACCESS_TOKEN}`
-      }
-    })
-    .then(res => res.json())
-    .then(data => {
-      this.setState({
-        detail: data,
-        loading: false
-      })
+    let detail = [];
+
+    try {
+      detail = await getMovieDetail(this.props.match.params.id);
+    } catch (e) {
+      console.log("There is an error........", e);
+    }
+
+    this.setState({
+      detail,
+      loading: false
     })
   }
 
@@ -38,13 +40,14 @@ export default class MovieDetailPage extends Component {
             <h5 className="loading">Loading.........</h5> :
             <Row>
               <Col lg={3}>
-                <img alt="" src={`https://image.tmdb.org/t/p/w500/${this.state.detail.poster_path}`} id="movie-detail-image" />
+                <img alt="" src={this.state.detail.poster_path? `https://image.tmdb.org/t/p/w500/${this.state.detail.poster_path}` : "/no-image.jpg"} id="movie-detail-image" />
                 <Button variant="secondary" className="movie-detail-left-part">Watch Trailer</Button>
                 <Button variant="secondary" className="movie-detail-left-part">Rate Movie</Button>
               </Col>
               <Col lg={6}>
-                <h3>{this.state.detail.original_title}</h3>
+                <h3>{this.state.detail.title}</h3>
                 <h6><i>{this.state.detail.tagline}</i></h6>
+                <p style={{ color: "grey" }}><FontAwesomeIcon icon={faStar} color="#f5af22"/> {this.state.detail.vote_average}</p>
                 <ul className="list-inline">
                   <li className="list-inline-li">{this.state.detail.release_date}</li>
                   <li className="list-inline-li">
@@ -57,7 +60,6 @@ export default class MovieDetailPage extends Component {
                   <li className="list-inline-li">{this.state.detail.runtime} minutes</li>
                   <li>{this.state.detail.status}</li>
                 </ul>
-                <p style={{ color: "grey" }}>Rating</p>
                 <p style={{ textAlign: "justify" }}>{this.state.detail.overview}</p>
                 <h6>Director :</h6>
                 <ul>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
-import config from '../config';
+import { getCastCrewDetail } from '../services/moviesServices';
 
 export default class CastCrewDetailPage extends Component {
   constructor(props) {
@@ -12,21 +12,20 @@ export default class CastCrewDetailPage extends Component {
     }
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.setState({ loading: true })
 
-    fetch(`${config.API_BASE_URL}/person/${this.props.match.params.id}?append_to_response=credits`, {
-      method: 'GET',
-      headers: {
-        authorization: `Bearer ${config.ACCESS_TOKEN}`
-      }
-    })
-    .then(res => res.json())
-    .then(data => {
-      this.setState({
-        detail: data,
-        loading: false
-      })
+    let detail = [];
+
+    try {
+      detail = await getCastCrewDetail(this.props.match.params.id);
+    } catch (e) {
+      console.log("There is an error....", e);
+    }
+
+    this.setState({
+      detail,
+      loading: false
     })
   }
 
@@ -52,7 +51,7 @@ export default class CastCrewDetailPage extends Component {
                 <Row>
                   { this.state.detail.credits && 
                     this.state.detail.credits.cast.length !== 0 ?
-                    <Col lg={6}>
+                    <Col>
                       <h5>Acting : </h5>
                         {this.state.detail.credits.cast.map((item, index) => 
                         <li key={index}>
@@ -64,7 +63,7 @@ export default class CastCrewDetailPage extends Component {
                   }
                   { this.state.detail.credits && 
                     this.state.detail.credits.crew.length !== 0 ?
-                    <Col lg={6}>
+                    <Col>
                       <h5>Involvements : </h5>
                         {this.state.detail.credits.crew.map((item, index) => 
                         <li key={index}>

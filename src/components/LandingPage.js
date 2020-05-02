@@ -4,6 +4,9 @@ import { Link } from 'react-router-dom';
 
 import { getNowPlayingMovies, getUpcomingMovies } from '../services/moviesServices';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
+
 export default class LandingPage extends Component {
   constructor(props) {
     super(props);
@@ -98,10 +101,10 @@ export default class LandingPage extends Component {
                 <Card id="landing-page-card">
                   <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500/${data.poster_path}`} />
                   <Card.Body>
-                    <Card.Title id="movie-title">{data.original_title}</Card.Title>
+                    <Card.Title id="movie-title">{data.title}</Card.Title>
                     <ListGroup className="list-group-flush">
                       <ListGroupItem>{data.release_date}</ListGroupItem>
-                      <ListGroupItem>Rating</ListGroupItem>
+                      <ListGroupItem><FontAwesomeIcon icon={faStar} color="#f5af22" /> {data.vote_average}</ListGroupItem>
                     </ListGroup>
                   </Card.Body>
                   <Card.Body>
@@ -131,10 +134,10 @@ export default class LandingPage extends Component {
                   <Card id="landing-page-card">
                     <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500/${data.poster_path}`} />
                     <Card.Body>
-                      <Card.Title id="movie-title">{data.original_title}</Card.Title>
+                      <Card.Title id="movie-title">{data.title}</Card.Title>
                       <ListGroup className="list-group-flush">
                         <ListGroupItem>{data.release_date}</ListGroupItem>
-                        <ListGroupItem>Rating</ListGroupItem>
+                        <ListGroupItem><FontAwesomeIcon icon={faStar} color="#f5af22" /> {data.vote_average}</ListGroupItem>
                       </ListGroup>
                     </Card.Body>
                     <Card.Body>

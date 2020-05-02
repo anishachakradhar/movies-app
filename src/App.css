@@ -107,13 +107,13 @@
 }
 
 #movie-title {
-  padding: .75rem 1.25rem;
+  padding: 0.3rem 1.25rem .75rem 1.25rem;
   height: 60px;
 }
 
 #movie-detail-image {
-  height: 600px;
-  width: 360px;
+  height: auto;
+  width: 100%;
   margin-bottom: 30px;
 }
 
@@ -135,7 +135,7 @@
 
 .movie-detail-left-part {
   color: white;
-  width: 360px;
+  width: 100%;
   margin-bottom: 5px;
   padding: 10px;
   text-align: center;
@@ -190,7 +190,7 @@ div.dropdown-divider {
 
 #movie-list-card {
   margin-top: 40px;
-  height: 400px;
+  height: auto;
   text-decoration: none;
 }
 
@@ -231,4 +231,19 @@ img.card-img-top {
   height: 100vh;
   text-align: center;
   margin-top: 20%;
+}
+
+#movie-list-rating {
+  color: grey;
+  margin: 0px;
+  padding: .6rem 1.25rem 0rem 1.25rem;
+  font-weight: 400;
+  font-size: 1rem
+}
+
+#movie-list-title {
+  padding: 0.3rem 1.25rem .75rem 1.25rem;
+  height: auto;
+  font-size: 1.10rem;
+  font-weight: 475;
 }

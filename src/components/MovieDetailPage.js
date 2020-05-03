@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Form, Button, Table } from 'react-bootstrap';
 
-import { getMovieDetail } from '../services/moviesServices';
+import { getMovieDetail, getSimilarMovies } from '../services/moviesServices';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
@@ -25,21 +25,28 @@ export default class MovieDetailPage extends Component {
     this.setState({ loading: true })
 
     let detail = [];
+    let similarMovies = [];
 
     try {
-      detail = await getMovieDetail(this.props.match.params.id);
+      [ detail, similarMovies ] = await Promise.all([
+        getMovieDetail(this.props.match.params.id),
+        getSimilarMovies(this.props.match.params.id)
+      ]);
+      console.log('this...', detail);
+      console.log('here...', similarMovies);
     } catch (e) {
       console.log("There is an error........", e);
     }
 
     this.setState({
       detail,
+      similarMovies,
       loading: false
     })
   }
 
   async componentDidUpdate(oldProps) {
-    if(oldProps.match.params.id !== this.props.match.params.id) {
+    if (oldProps.match.params.id !== this.props.match.params.id) {
       this.setState({ loading: true })
 
       let detail = [];
@@ -68,23 +75,19 @@ export default class MovieDetailPage extends Component {
 
   handleSubmitReview = (e) => {
     e.preventDefault();
-    const reviews = [...this.state.reviews, this.state.review.text]
-    if(!this.state.review.isEmpty && this.state.review.text !== "") {
-      this.setState({
-        reviews,
-        review: {
-          text: '',
-          isEmpty: true
-        }
-      })
-    } else {
-      this.setState({
-        review: {
-          text: '',
-          isEmpty: true
-        }
-      })
+
+    if (!this.state.review.text) {
+      return;
     }
+
+    const reviews = [...this.state.reviews, this.state.review.text];
+    this.setState({
+      reviews,
+      review: {
+        text: '',
+        isEmpty: true
+      }
+    })
     console.log(this.state.reviews)
   }
 
@@ -161,7 +164,10 @@ export default class MovieDetailPage extends Component {
                 </div>
               </Col>
               <Col lg={3}>
-                <SimilarMovies details={this.props} />
+                <SimilarMovies
+                  similarMovies={this.state.similarMovies}
+                  movieId={this.props.match.params.id}
+                />
               </Col>
             </Row>
           }

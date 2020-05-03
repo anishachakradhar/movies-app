@@ -2,31 +2,13 @@ import React, { Component } from 'react';
 import { Card, Button, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-import { getSimilarMovies } from '../services/moviesServices';
-
 export default class SimilarMovies extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      similarMovies : [],
+      similarMovies : props.similarMovies || [],
       loading: false
     }
-  }
-
-  async componentDidMount() {
-    this.setState({ loading: true })
-    let similarMovies = [];
-    
-    try {
-      similarMovies = await getSimilarMovies(this.props.details.match.params.id)
-    } catch (e) {
-      console.log("There is an error........", e)
-    }
-
-    this.setState({
-      similarMovies,
-      loading: false
-    })
   }
 
   render() {
@@ -44,7 +26,7 @@ export default class SimilarMovies extends Component {
           )}
           <Row>
             <Col lg={3} />
-            <Col lg={6}><Button variant="secondary" className="landing-page-button" as={Link} to={`/similar-movies/${this.props.details.match.params.id}`}>View More</Button></Col>
+            <Col lg={6}><Button variant="secondary" className="landing-page-button" as={Link} to={`/similar-movies/${this.props.movieId}`}>View More</Button></Col>
             <Col lg={3} />
           </Row> 
           </> }

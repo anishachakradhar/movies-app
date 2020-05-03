@@ -143,14 +143,13 @@
 }
 
 .movie-review {
-  border: 1px solid #dddddd;
-  border-radius: 5px;
   padding: 30px;
-  margin: 40px 0;
 }
 
 #similar-movie-card {
   margin: 20px 50px;
+  text-decoration: none;
+  font-size: 1.2rem;
 }
 
 .similar-movie-title {

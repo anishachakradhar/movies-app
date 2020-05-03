@@ -50,3 +50,13 @@ export function getCastCrewDetail(castId) {
   .then(response => response.data)
   .catch((e) => console.log(e))
 }
+
+export function getSimilarMovies(movieId) {
+  return axios.get(`${config.API_BASE_URL}/movie/${movieId}/similar`, {
+    headers: {
+      authorization: `Bearer ${config.ACCESS_TOKEN}`
+    }
+  })
+  .then(response => response.data.results)
+  .catch((e) => console.log(e))
+}

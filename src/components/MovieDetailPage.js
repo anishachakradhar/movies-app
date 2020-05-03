@@ -1,17 +1,23 @@
 import React, { Component } from 'react';
-import { Row, Col, Form, Button, Card } from 'react-bootstrap';
+import { Row, Col, Form, Button, Table } from 'react-bootstrap';
 
 import { getMovieDetail } from '../services/moviesServices';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
+import SimilarMovies from './SimilarMovies';
 
 export default class MovieDetailPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       loading: false,
-      detail: []
+      detail: [],
+      reviews: [],
+      review: {
+        text: '',
+        isEmpty: true
+      }
     }
   }
 
@@ -30,6 +36,56 @@ export default class MovieDetailPage extends Component {
       detail,
       loading: false
     })
+  }
+
+  async componentDidUpdate(oldProps) {
+    if(oldProps.match.params.id !== this.props.match.params.id) {
+      this.setState({ loading: true })
+
+      let detail = [];
+
+      try {
+        detail = await getMovieDetail(this.props.match.params.id);
+      } catch (e) {
+        console.log("There is an error........", e);
+      }
+
+      this.setState({
+        detail,
+        loading: false
+      })
+    }
+  }
+
+  handleReview = (e) => {
+    this.setState({
+      review: {
+        text: e.target.value,
+        isEmpty: false
+      }
+    })
+  }
+
+  handleSubmitReview = (e) => {
+    e.preventDefault();
+    const reviews = [...this.state.reviews, this.state.review.text]
+    if(!this.state.review.isEmpty && this.state.review.text !== "") {
+      this.setState({
+        reviews,
+        review: {
+          text: '',
+          isEmpty: true
+        }
+      })
+    } else {
+      this.setState({
+        review: {
+          text: '',
+          isEmpty: true
+        }
+      })
+    }
+    console.log(this.state.reviews)
   }
 
   render() {
@@ -85,25 +141,27 @@ export default class MovieDetailPage extends Component {
                 <Form className="movie-review">
                   <Form.Group>
                     <Form.Label style={{marginBottom: "20px"}}>Write a review</Form.Label>
-                    <Form.Control as="textarea" placeholder="Something...... anything.........." style={{height: "100px", resize: "none"}} />
+                    <Form.Control as="textarea" style={{height: "100px", resize: "none"}} name="text" value={this.state.review.text} onChange={this.handleReview} />
                   </Form.Group>
-                  <Button variant="secondary" type="submit">Submit</Button>
+                  <Button variant="secondary" type="submit" onClick={this.handleSubmitReview}>Submit</Button>
                 </Form>
+                <div className="movie-review">
+                  <p>Reviews : </p>
+                  { this.state.reviews.length !== 0 ?
+                    <Table responsive>
+                      <tbody>
+                          {this.state.reviews.map((data,index) => 
+                              <tr key={index}>
+                                  <td>{index + 1}. {data}</td>
+                              </tr>
+                          )}
+                      </tbody>
+                  </Table> : <p>No reviews yet</p>
+                  }
+                </div>
               </Col>
               <Col lg={3}>
-                <h5 style={{ marginLeft: "50px" }}>Similar Movies :</h5>
-                <Card id="similar-movie-card">
-                  <Card.Img variant="top" src="/window.jpg" />
-                  <p className="similar-movie-title">Movie Title</p>
-                </Card>
-                <Card id="similar-movie-card">
-                  <Card.Img variant="top" src="/window.jpg" />
-                  <p className="similar-movie-title">Movie Title</p>
-                </Card>
-                <Card id="similar-movie-card">
-                  <Card.Img variant="top" src="/window.jpg" />
-                  <p className="similar-movie-title">Movie Title</p>
-                </Card>
+                <SimilarMovies details={this.props} />
               </Col>
             </Row>
           }

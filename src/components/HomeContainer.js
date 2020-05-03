@@ -10,6 +10,7 @@ import NowShowingMoviesPage from './NowShowingMoviesPage';
 import TopRatedMoviesPage from './TopRatedMoviesPage';
 import UpcomingMoviesPage from './UpcomingMoviesPage';
 import CastCrewDetailPage from './CastCrewDetailPage';
+import SimilarMoviesPage from './SimilarMoviesPage';
 
 export class HomeContainer extends Component {
   render() {
@@ -19,6 +20,7 @@ export class HomeContainer extends Component {
         <Switch>
           <Route path="/movie-detail/:id" render={(props) => <MovieDetailPage {...props} />}/>
           <Route path="/cast-crew-detail/:id" render={(props) => <CastCrewDetailPage {...props} />}/>
+          <Route path="/similar-movies/:id" render={(props) => <SimilarMoviesPage {...props} />}/>
           <Route path="/now-showing">
             <NowShowingMoviesPage />
           </Route>

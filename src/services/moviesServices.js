@@ -60,3 +60,12 @@ export function getSimilarMovies(movieId) {
   .then(response => response.data.results)
   .catch((e) => console.log(e))
 }
+
+export function getSearchMovie(movieText) {
+  return axios.get(`${config.API_BASE_URL}/search/movie?query=${movieText}`, {
+    headers: {
+      authorization: `Bearer ${config.ACCESS_TOKEN}`
+    }
+  })
+  .then(response => response.data.results)
+}

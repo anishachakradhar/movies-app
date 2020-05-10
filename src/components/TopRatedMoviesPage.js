@@ -38,7 +38,7 @@ export default class TopRatedMoviesPage extends Component {
       <div className="container-wrapper movie-detail">
         <div className="movie-detail-container">
           <h3>Top Rated Movies</h3>
-          { this.state.loading ? 
+          {this.state.loading ? 
             <h5 className="loading">Loading.........</h5> :
             <Row>
               {this.state.topRatedList.map((item, index) => 

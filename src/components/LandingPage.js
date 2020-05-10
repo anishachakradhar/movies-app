@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { Row, Col, Form, FormControl, Button, Carousel, InputGroup, Card, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Row, Col, Button, Carousel, Card, ListGroup, ListGroupItem, Form, InputGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import Autosuggest from 'react-autosuggest';
 
-import { getNowPlayingMovies, getUpcomingMovies } from '../services/moviesServices';
+import { getNowPlayingMovies, getUpcomingMovies, getSearchMovie } from '../services/moviesServices';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
+// import Search from './Search';
 
 export default class LandingPage extends Component {
   constructor(props) {
@@ -14,7 +16,9 @@ export default class LandingPage extends Component {
       nowShowingLoading: false,
       upcomingLoading: false,
       nowShowingList: [],
-      upcomingList: []
+      upcomingList: [],
+      movie: '',
+      suggestions: [],
     }
   }
 
@@ -28,7 +32,10 @@ export default class LandingPage extends Component {
     let upcomingList   = [];
 
     try {
-      nowShowingList = await getNowPlayingMovies();
+      [ nowShowingList, upcomingList ] = await Promise.all([
+        getNowPlayingMovies(),
+        getUpcomingMovies(),
+      ]);
     } catch (e) {
       // handle your errors here
       console.log('Error...', e);
@@ -36,19 +43,41 @@ export default class LandingPage extends Component {
 
     this.setState({
       nowShowingList,
-      nowShowingLoading: false
-    })
-
-    try {
-      upcomingList = await getUpcomingMovies();
-    } catch (e) {
-      // handle your errors here
-      console.log('Error...', e);
-    }
-
-    this.setState({
+      nowShowingLoading: false,
       upcomingList,
-      upcomingLoading: false
+      upcomingLoading:false,
+    })
+  }
+
+  getPosterUrl = (path) => {
+    if(!path) {
+      return '/no-image.jpg'
+    }
+  
+    return `https://image.tmdb.org/t/p/w500/${path}`
+  }
+
+  onSearchChange = ( event, { newValue } ) => {
+    this.setState({
+      movie: newValue
+    })
+  }
+
+  onSuggestionsFetchRequested =  async ({ value }) => {
+    try {
+      let suggestions = await getSearchMovie(value);
+      console.log('this is auto suggestions......',suggestions);
+      this.setState({
+        suggestions
+      })
+    } catch (e) {
+      console.log('there is an error......', e);
+    }
+  }
+
+  onSuggestionsClearRequested = () => {
+    this.setState({
+      suggestions: [],
     })
   }
 
@@ -78,11 +107,28 @@ export default class LandingPage extends Component {
             <Col lg={3} sm={3} />
             <Col lg={6} sm={6}>
               <Form inline>
-                <InputGroup style={{width: "100%"}}>
-                  <FormControl type="text" className="mr-sm-2" />
-                  <InputGroup.Append>
-                    <Button variant="outline-secondary" className="nav-button" id="basic-addon2">Search</Button>
-                  </InputGroup.Append>
+                <InputGroup id="inputgroup-search">
+                  <Autosuggest 
+                    inputProps = {{
+                      placeholder: "Enter your movie title here.",
+                      value: this.state.movie,
+                      onChange: this.onSearchChange
+                    }}
+                    suggestions = { this.state.suggestions }
+                    onSuggestionsFetchRequested = { this.onSuggestionsFetchRequested }
+                    onSuggestionsClearRequested = { this.onSuggestionsClearRequested }
+                    getSuggestionValue = { suggestion => suggestion.title }
+                    renderSuggestion = { suggestion => (
+                      <Card id="search-suggestions-card" as={ Link } to={`/movie-detail/${suggestion.id}`} >
+                        <img alt="" className="search-suggestions-image" src={this.getPosterUrl(suggestion.poster_path)}/>
+                        <span className="search-suggestions-movie-title">
+                            {suggestion.title} 
+                            <FontAwesomeIcon icon={faStar} color="#f5af22" className="search-suggestions-rating" /> 
+                            {suggestion.vote_average}
+                        </span>
+                      </Card>
+                    )}
+                  />
                 </InputGroup>
               </Form>
             </Col>
@@ -93,26 +139,26 @@ export default class LandingPage extends Component {
           <p>Now Showing Movies</p>
         </div>
         <div className="movies-list container-wrapper">
-          { this.state.nowShowingLoading ? 
+          {this.state.nowShowingLoading ? 
             <h5>Loading.........</h5> :
             <Row>
               {this.state.nowShowingList.slice(0,6).map((data, index) => 
                 <Col lg={2} sm={2} key={index}>
-                <Card id="landing-page-card">
-                  <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500/${data.poster_path}`} />
-                  <Card.Body>
-                    <Card.Title id="movie-title">{data.title}</Card.Title>
-                    <ListGroup className="list-group-flush">
-                      <ListGroupItem>{data.release_date}</ListGroupItem>
-                      <ListGroupItem><FontAwesomeIcon icon={faStar} color="#f5af22" /> {data.vote_average}</ListGroupItem>
-                    </ListGroup>
-                  </Card.Body>
-                  <Card.Body>
-                    <Card.Link href={`/movie-detail/${data.id}`}>View Details</Card.Link>
-                    <Card.Link href="#">Watch trailer</Card.Link>
-                  </Card.Body>
-                </Card>
-              </Col>
+                  <Card id="landing-page-card">
+                    <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500/${data.poster_path}`} />
+                    <Card.Body>
+                      <Card.Title id="movie-title">{data.title}</Card.Title>
+                      <ListGroup className="list-group-flush">
+                        <ListGroupItem>{data.release_date}</ListGroupItem>
+                        <ListGroupItem><FontAwesomeIcon icon={faStar} color="#f5af22" /> {data.vote_average}</ListGroupItem>
+                      </ListGroup>
+                    </Card.Body>
+                    <Card.Body>
+                      <Card.Link href={`/movie-detail/${data.id}`}>View Details</Card.Link>
+                      <Card.Link href="#">Watch trailer</Card.Link>
+                    </Card.Body>
+                  </Card>
+                </Col>
               )}
               <Col lg={2} />
               <Col lg={8}>
@@ -126,10 +172,10 @@ export default class LandingPage extends Component {
           <p>Upcoming Movies</p>
         </div>
         <div className="movies-list container-wrapper">
-          { this.state.upcomingLoading ? 
+          {this.state.upcomingLoading ? 
             <h5>Loading.........</h5> :
             <Row>
-              { this.state.upcomingList.slice(0,6).map((data, index) => 
+              {this.state.upcomingList.slice(0,6).map((data, index) => 
                 <Col lg={2} sm={2} key={index}>
                   <Card id="landing-page-card">
                     <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500/${data.poster_path}`} />

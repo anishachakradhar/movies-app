@@ -41,8 +41,8 @@ export default class SimilarMoviesPage extends Component {
     return (
       <div className="container-wrapper movie-detail">
         <div className="movie-detail-container">
-          <h3>Similar Movies to {this.state.movieDetail.title}</h3>
-          { this.state.loading ? 
+          <h3>Similar Movies to <b>{this.state.movieDetail.title}</b></h3>
+          {this.state.loading ? 
             <h5 className="loading">Loading.........</h5> :
             <Row>
               {this.state.similarMovies.map((item, index) => 

@@ -9,6 +9,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 // import Search from './Search';
 
+import debounce from '../utils/debounce';
+
 export default class LandingPage extends Component {
   constructor(props) {
     super(props);
@@ -63,7 +65,7 @@ export default class LandingPage extends Component {
     })
   }
 
-  onSuggestionsFetchRequested =  async ({ value }) => {
+  onSuggestionsFetchRequested = debounce(async ({ value }) => {
     try {
       let suggestions = await getSearchMovie(value);
       console.log('this is auto suggestions......',suggestions);
@@ -73,7 +75,7 @@ export default class LandingPage extends Component {
     } catch (e) {
       console.log('there is an error......', e);
     }
-  }
+  }, 1000)
 
   onSuggestionsClearRequested = () => {
     this.setState({

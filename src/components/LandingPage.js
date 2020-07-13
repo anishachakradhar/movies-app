@@ -143,31 +143,35 @@ export default class LandingPage extends Component {
         <div className="movies-list container-wrapper">
           {this.state.nowShowingLoading ? 
             <h5>Loading.........</h5> :
-            <Row>
-              {this.state.nowShowingList.slice(0,6).map((data, index) => 
-                <Col lg={2} sm={2} key={index}>
-                  <Card id="landing-page-card">
-                    <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500/${data.poster_path}`} />
-                    <Card.Body>
-                      <Card.Title id="movie-title">{data.title}</Card.Title>
-                      <ListGroup className="list-group-flush">
-                        <ListGroupItem>{data.release_date}</ListGroupItem>
-                        <ListGroupItem><FontAwesomeIcon icon={faStar} color="#f5af22" /> {data.vote_average}</ListGroupItem>
-                      </ListGroup>
-                    </Card.Body>
-                    <Card.Body>
-                      <Card.Link href={`/movie-detail/${data.id}`}>View Details</Card.Link>
-                      <Card.Link href="#">Watch trailer</Card.Link>
-                    </Card.Body>
-                  </Card>
+            <div>
+              <Row>
+                {this.state.nowShowingList.slice(0,6).map((data, index) => 
+                  <Col key={index}>
+                    <Card id="landing-page-card">
+                      <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500/${data.poster_path}`} />
+                      <Card.Body>
+                        <Card.Title id="movie-title">{data.title}</Card.Title>
+                        <ListGroup className="list-group-flush">
+                          <ListGroupItem>{data.release_date}</ListGroupItem>
+                          <ListGroupItem><FontAwesomeIcon icon={faStar} color="#f5af22" /> {data.vote_average}</ListGroupItem>
+                        </ListGroup>
+                      </Card.Body>
+                      <Card.Body>
+                        <Card.Link href={`/movie-detail/${data.id}`}>View Details</Card.Link>
+                        <Card.Link href="#">Watch trailer</Card.Link>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                )}
+              </Row>
+              <Row>
+                <Col lg={2} />
+                <Col lg={8}>
+                  <Button variant="secondary" className="landing-page-button" as={Link} to="/now-showing">View More</Button>
                 </Col>
-              )}
-              <Col lg={2} />
-              <Col lg={8}>
-                <Button variant="secondary" className="landing-page-button" as={Link} to="/now-showing">View More</Button>
-              </Col>
-              <Col lg={2} />
-            </Row> 
+                <Col lg={2} />
+              </Row> 
+            </div>
           }
         </div>
         <div className="movies-list-title container-wrapper">
@@ -176,31 +180,35 @@ export default class LandingPage extends Component {
         <div className="movies-list container-wrapper">
           {this.state.upcomingLoading ? 
             <h5>Loading.........</h5> :
-            <Row>
-              {this.state.upcomingList.slice(0,6).map((data, index) => 
-                <Col lg={2} sm={2} key={index}>
-                  <Card id="landing-page-card">
-                    <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500/${data.poster_path}`} />
-                    <Card.Body>
-                      <Card.Title id="movie-title">{data.title}</Card.Title>
-                      <ListGroup className="list-group-flush">
-                        <ListGroupItem>{data.release_date}</ListGroupItem>
-                        <ListGroupItem><FontAwesomeIcon icon={faStar} color="#f5af22" /> {data.vote_average}</ListGroupItem>
-                      </ListGroup>
-                    </Card.Body>
-                    <Card.Body>
-                      <Card.Link href={`/movie-detail/${data.id}`}>View Details</Card.Link>
-                      <Card.Link href="#">Watch trailer</Card.Link>
-                    </Card.Body>
-                  </Card>
+            <div>
+              <Row>
+                {this.state.upcomingList.slice(0,6).map((data, index) => 
+                  <Col key={index}>
+                    <Card id="landing-page-card">
+                      <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500/${data.poster_path}`} />
+                      <Card.Body>
+                        <Card.Title id="movie-title">{data.title}</Card.Title>
+                        <ListGroup className="list-group-flush">
+                          <ListGroupItem>{data.release_date}</ListGroupItem>
+                          <ListGroupItem><FontAwesomeIcon icon={faStar} color="#f5af22" /> {data.vote_average}</ListGroupItem>
+                        </ListGroup>
+                      </Card.Body>
+                      <Card.Body>
+                        <Card.Link href={`/movie-detail/${data.id}`}>View Details</Card.Link>
+                        <Card.Link href="#">Watch trailer</Card.Link>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                )}
+              </Row>
+              <Row>
+                <Col lg={2} />
+                <Col lg={8}>
+                  <Button variant="secondary" className="landing-page-button" as={Link} to="/upcoming">View More</Button>
                 </Col>
-              )}
-              <Col lg={2} />
-              <Col lg={8}>
-                <Button variant="secondary" className="landing-page-button" as={Link} to="/upcoming">View More</Button>
-              </Col>
-              <Col lg={2} />
-            </Row>
+                <Col lg={2} />
+              </Row>
+            </div>
           }
         </div>
       </div>

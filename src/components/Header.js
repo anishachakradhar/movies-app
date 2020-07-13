@@ -7,11 +7,11 @@ export default class Header extends Component {
     return (
       <div>
         <Navbar bg="black" variant="dark" expand="lg" id="main-nav">
-          <Navbar.Brand href="/">Movie App</Navbar.Brand>
+          <Navbar.Brand href="/movies-app">Movie App</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav>
-              <Nav.Link href="/">Home</Nav.Link>
+              <Nav.Link href="/movies-app">Home</Nav.Link>
               <Nav.Link>
                 <DropdownButton alignRight title="Movies" id="navbar-dropdown-menu">
                   <Dropdown.Item eventKey="1" id="dropdown-menu-item" as={Link} to="/now-showing">Now Showing</Dropdown.Item>

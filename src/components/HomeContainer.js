@@ -30,7 +30,7 @@ export class HomeContainer extends Component {
           <Route path="/upcoming">
             <UpcomingMoviesPage />
           </Route>
-          <Route path="/">
+          <Route path="/movies-app">
             <LandingPage />
           </Route>
         </Switch>

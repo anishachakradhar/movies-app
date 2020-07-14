@@ -31,7 +31,7 @@ export default class CastCrewDetailPage extends Component {
 
   getProfileUrl = (path) => {
     if(!path) {
-      return '/no_photo_available.jpg'
+      return `${process.env.PUBLIC_URL}/images/no_photo_available.jpg`
     }
   
     return `https://image.tmdb.org/t/p/w500/${path}`

@@ -91,7 +91,7 @@ export default class MovieDetailPage extends Component {
 
   getPosterUrl = (path) => {
     if(!path) {
-      return '/no-image.jpg'
+      return `${process.env.PUBLIC_URL}/images/no-image.jpg`
     }
   
     return `https://image.tmdb.org/t/p/w500/${path}`

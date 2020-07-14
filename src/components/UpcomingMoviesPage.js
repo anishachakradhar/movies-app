@@ -46,7 +46,10 @@ export default class UpcomingMoviesPage extends Component {
                   <Card id="movie-list-card" as={Link} to={`/movie-detail/${item.id}`}>
                     <Card.Img 
                       variant="top" 
-                      src={ item.poster_path? `https://image.tmdb.org/t/p/w500/${item.poster_path}` : "/no-image.jpg"} 
+                      src={item.poster_path ?
+                        `https://image.tmdb.org/t/p/w500/${item.poster_path}` :
+                        `${process.env.PUBLIC_URL}/images/no-image.jpg`
+                      }
                     />
                     <Card.Body id="movie-list-card-body">
                       <Card.Title>

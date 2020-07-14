@@ -53,7 +53,7 @@ export default class LandingPage extends Component {
 
   getPosterUrl = (path) => {
     if(!path) {
-      return '/no-image.jpg'
+      return `${process.env.PUBLIC_URL}/images/no-image.jpg`
     }
   
     return `https://image.tmdb.org/t/p/w500/${path}`
@@ -91,7 +91,7 @@ export default class LandingPage extends Component {
             <Carousel.Item>
               <img
                 className="d-block w-100"
-                src="seats.jpg"
+                src={`${process.env.PUBLIC_URL}/images/seats.jpg`}
                 alt="First slide"
                 height="500px"
               />
@@ -99,7 +99,7 @@ export default class LandingPage extends Component {
             <Carousel.Item>
               <img
                 className="d-block w-100"
-                src="seatswithagirl.jpg"
+                src={`${process.env.PUBLIC_URL}/images/seatswithagirl.jpg`}
                 alt="Second slide"
                 height="500px"
               />
